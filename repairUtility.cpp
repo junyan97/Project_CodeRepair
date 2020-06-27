@@ -9,8 +9,9 @@ class repairUtil {
 
     public:
 
-        repairUtil(string path) {
+        repairUtil(string path, string ioString) {
             this->path = path;
+            this->ioString = ioString;
         }
 
         bool requireRepair() {
@@ -25,6 +26,7 @@ class repairUtil {
     private:
 
         string path;
+        string ioString;
 
         bool doesCompile() {
             string compileCommandStr;
