@@ -17,7 +17,6 @@ class fileUtil {
         fileUtil(string path, string ioString) {
             this->path = path;
             this->ioString = ioString;
-            generateTest();
         }
 
         bool correctFormat() {
@@ -33,11 +32,12 @@ class fileUtil {
         string path;
         string ioString;
 
+        parser simpleParser;
+
         bool openFile() {
             string line;
             ifstream readFile(path);
-            parser simpleParser;
-
+            
             //check to see if file opens.
             if(!readFile) {
                 cerr << "Error, opening file. " << endl;
@@ -53,6 +53,7 @@ class fileUtil {
             }
 
             readFile.close();
+            generateTest();
 
             return true;
         }
@@ -78,7 +79,8 @@ class fileUtil {
             ofstream test_prog ("test_prog.c");
 
             ioUtil io(ioString);
-            parser simpleParser;
+
+            cout << "generating test file " << endl;
 
             vector<string> listofFunc = simpleParser.getFunNames();
 

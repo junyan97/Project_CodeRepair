@@ -3,7 +3,7 @@
 
 int inc(int a) {
 
-    a++;
+    a--;
 
     return a;
 }

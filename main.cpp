@@ -12,12 +12,12 @@ using namespace std;
 int main() {
 
   string filepath;
-  string input_output = "(1,2)";
+  string input_output;
 
   cout << "Please enter exact path of program to be repaired: ";
   cin >> filepath;
-  /*cout << "Please enter input/output example in the form (input, output): ";
-  cin >> input_output;*/
+  cout << "Please enter input/output example in the form (input, output): ";
+  cin >> input_output;
   cout << endl;
 
   fileUtil file(filepath, input_output);

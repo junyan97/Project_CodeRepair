@@ -2,15 +2,8 @@
 #include<assert.h>
 
 int inc(int a) {
-    a++;
-    return a;
-}
-
-int main() {
-
-    int a = 1;
     
-    assert(inc(a) == 2);
+    a++;
 
-    return 0;
+    return a;
 }
