@@ -32,7 +32,7 @@ class ioUtil {
         
             boost::trim_left(ioString);
             boost::trim_right(ioString);
-            
+   
             input = stoi(ioString.substr(ioString.find("(") + 1, ioString.find(",")));
             output = stoi(ioString.substr(ioString.find(",") + 1, ioString.find(")") - 1));
             

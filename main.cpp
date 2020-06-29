@@ -12,15 +12,16 @@ using namespace std;
 int main() {
 
   string filepath;
-  string input_output;
+  string input_output = "(1,2)";
 
   cout << "Please enter exact path of program to be repaired: ";
   cin >> filepath;
-  cout << "Please enter input/output example in the form (input, output)";
+  /*cout << "Please enter input/output example in the form (input, output): ";
+  cin >> input_output;*/
   cout << endl;
 
-  fileUtil file(filepath);
-  repairUtil program(filepath);
+  fileUtil file(filepath, input_output);
+  repairUtil program("test_prog.c");
 
   
   if(file.correctFormat() && !program.requireRepair()) {
@@ -31,6 +32,7 @@ int main() {
     cout << endl << "Program require repair" << endl;
   }
   system("rm temp");
+  system("rm test_prog.c");
   cout << endl;
   
   return 0;
