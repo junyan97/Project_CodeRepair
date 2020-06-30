@@ -14,8 +14,11 @@ class fileUtil {
 
     public:
 
-        fileUtil(string path, string ioString) {
+        fileUtil(string path) {
             this->path = path;
+        }
+
+        void setioString(string ioString) {
             this->ioString = ioString;
         }
 
@@ -26,6 +29,18 @@ class fileUtil {
                 return false;
             }
         }
+
+        void previewFile() {
+            string line;
+            ifstream readFile(path);
+
+            if(readFile) {
+                while(getline(readFile, line)) {
+                    cout << line << endl;
+                }
+            }
+        }
+
 
     private:
 

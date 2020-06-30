@@ -11,16 +11,31 @@ using namespace std;
 
 int main() {
 
+  string response;
   string filepath;
   string input_output;
 
   cout << "Please enter exact path of program to be repaired: ";
   cin >> filepath;
+
+  fileUtil file(filepath);
+
+  cout << "Is the following the file to be inspected" << endl;
+  cout << "---------------------------------------------" << endl;
+  file.previewFile();
+  cout << endl <<"Type yes to proceed and no to cancel the operation: " << endl;
+  cin >> response;
+
+  if(response == "no") {
+    cout << "operation cancelled" << endl;
+    exit(EXIT_SUCCESS);
+  }
+
   cout << "Please enter input/output example in the form (input, output): ";
   cin >> input_output;
+  file.setioString(input_output);
   cout << endl;
-
-  fileUtil file(filepath, input_output);
+  
   repairUtil program("test_prog.c");
 
   
