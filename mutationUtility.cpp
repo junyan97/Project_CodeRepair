@@ -23,8 +23,17 @@ class mutUtil {
             operations.push_back("<=");
             operations.push_back("||");
             operations.push_back("&&");
+
+            generateMutated();
         }
         
+        
+
+    private:
+    
+        string path;
+        vector<string> operations;
+
         bool hasOperations (string line) {
             
             for(int i = 0; i < operations.size(); i++) {
@@ -34,11 +43,6 @@ class mutUtil {
             }
             return false;
         }
-
-    private:
-    
-        string path;
-        vector<string> operations;
 
         string arithmetricOp (string line) {
 
@@ -73,8 +77,34 @@ class mutUtil {
             : replace_all_copy(line, "&&", "||");
         }
 
-        
-        
+        string mutatedLine (string line) {
 
-    
+            if(contains(line, "+") || contains(line, "-") || contains(line, "*")
+             || contains(line, "/") || contains(line, "%")) {
+                 return arithmetricOp(line);
+             }
+             else if(contains(line, "<") || contains(line, "<=") || contains(line, ">") 
+             || contains(line, ">=")) {
+                 return relationalOp(line);
+             }else{
+                 return logicOp(line);
+             }
+        }
+        
+        void generateMutated() {
+            string line;
+            string endofLine = "\n";
+            ifstream readFile(path);
+            ofstream mut_prog("mutated_prog.c");
+
+            if(readFile) {
+                while(getline(readFile, line)) {
+                    if(hasOperations(line)) {
+                        mut_prog << mutatedLine(line) << endofLine;
+                    }else{
+                        mut_prog << line << endofLine;
+                    }
+                }
+            }
+        }
 };
