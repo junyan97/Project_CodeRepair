@@ -4,6 +4,8 @@
 ### C++ ###
 # Prerequisites
 main
+test.cpp
+test
 *.d
 
 # Compiled Object files

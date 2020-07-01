@@ -4,6 +4,7 @@
 
 #include "fileUtility.cpp"
 #include "repairUtility.cpp"
+#include "mutationUtility.cpp"
 
 
 using namespace std;
@@ -14,6 +15,7 @@ int main() {
   string response;
   string filepath;
   string input_output;
+  string generatedTests = "test_prog.c";
 
   cout << "Please enter exact path of program to be repaired: ";
   cin >> filepath;
@@ -36,8 +38,7 @@ int main() {
   file.setioString(input_output);
   cout << endl;
   
-  repairUtil program("test_prog.c");
-
+  repairUtil program(generatedTests);
   
   if(file.correctFormat() && !program.requireRepair()) {
     cout << "-----------------------------------" << endl;
@@ -45,6 +46,10 @@ int main() {
   }else{
     cout << "-----------------------------------" << endl;
     cout << endl << "Program require repair" << endl;
+
+    mutUtil repairProg(generatedTests);
+
+    
   }
   system("rm temp");
   system("rm test_prog.c");
