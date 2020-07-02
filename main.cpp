@@ -25,11 +25,15 @@ int main() {
   cout << "Is the following the file to be inspected" << endl;
   cout << "---------------------------------------------" << endl;
   file.previewFile();
-  cout << endl <<"Type yes to proceed and no to cancel the operation: " << endl;
+  cout << endl <<"Type yes to proceed and no to cancel the operation: ";
   cin >> response;
 
   if(response == "no") {
     cout << "operation cancelled" << endl;
+    exit(EXIT_SUCCESS);
+  }
+  else if (response != "yes") {
+    cout << "response not recognized" << endl;
     exit(EXIT_SUCCESS);
   }
 

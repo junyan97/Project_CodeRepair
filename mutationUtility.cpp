@@ -52,7 +52,7 @@ class mutUtil {
                 cout << "No suitable repair found" << endl;
             }
             
-            for(int i = 0; i < mut_cnt; i++) {
+            for(int i = 0; i < mut_cnt - 1; i++) {
                 string to_Be_Deleted = "rm " + mutated_filename + to_string(i) + ".c";
                 system(to_Be_Deleted.c_str());
             }
