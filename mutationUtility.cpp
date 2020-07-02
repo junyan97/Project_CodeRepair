@@ -34,15 +34,28 @@ class mutUtil {
             repairUtil prog("");
             
             do {
-            
-                generateMutated(mutated_filename + to_string(mut_cnt));
+                if(mut_cnt == 0) {
+                    generateMutated(path, mutated_filename + to_string(mut_cnt));
+                }else{
+                    generateMutated(mutated_filename + to_string(mut_cnt - 1) + ".c", mutated_filename + to_string(mut_cnt));
+                } 
                 prog.setFilename(mutated_filename + to_string(mut_cnt) + ".c");
                 mut_cnt++;
 
-            } while (prog.requireRepair());
+            } while (prog.requireRepair() && mut_cnt < 3);
 
-            cout << endl  << "------------------------------------" << endl;
-            cout << "Program repaired" << endl;
+            if(mut_cnt < 2) {
+                cout << endl  << "------------------------------------" << endl;
+                cout << "Program repaired" << endl;
+            }else{
+                cout << endl  << "------------------------------------" << endl;
+                cout << "No suitable repair found" << endl;
+            }
+            
+            for(int i = 0; i < mut_cnt; i++) {
+                string to_Be_Deleted = "rm " + mutated_filename + to_string(i) + ".c";
+                system(to_Be_Deleted.c_str());
+            }
             
         }        
         
@@ -112,10 +125,10 @@ class mutUtil {
              }
         }
         
-        void generateMutated(string mutated_filename) {
+        void generateMutated(string file_to_mutate, string mutated_filename) {
             string line;
             string endofLine = "\n";
-            ifstream readFile(path);
+            ifstream readFile(file_to_mutate);
             ofstream mut_prog(mutated_filename + ".c");
 
             if(readFile) {
