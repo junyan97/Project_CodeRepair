@@ -21,6 +21,10 @@ class repairUtil {
             }
         }
 
+        void setFilename(string path) {
+            this->path = path;
+        }
+
 
     private:
 

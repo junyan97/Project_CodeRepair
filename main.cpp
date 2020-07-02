@@ -48,6 +48,7 @@ int main() {
     cout << endl << "Program require repair" << endl;
 
     mutUtil repairProg(generatedTests);
+    repairProg.repair();
 
     
   }

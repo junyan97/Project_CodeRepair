@@ -24,9 +24,27 @@ class mutUtil {
             operations.push_back("||");
             operations.push_back("&&");
 
-            generateMutated();
         }
-        
+
+        void repair() {
+
+            int mut_cnt = 0;
+            string mutated_filename = "mutated_prog_";
+
+            repairUtil prog("");
+            
+            do {
+            
+                generateMutated(mutated_filename + to_string(mut_cnt));
+                prog.setFilename(mutated_filename + to_string(mut_cnt) + ".c");
+                mut_cnt++;
+
+            } while (prog.requireRepair());
+
+            cout << endl  << "------------------------------------" << endl;
+            cout << "Program repaired" << endl;
+            
+        }        
         
 
     private:
@@ -79,7 +97,10 @@ class mutUtil {
 
         string mutatedLine (string line) {
 
-            if(contains(line, "+") || contains(line, "-") || contains(line, "*")
+             if(contains(line, "include")) {
+                return line;
+             }    
+            else if(contains(line, "+") || contains(line, "-") || contains(line, "*")
              || contains(line, "/") || contains(line, "%")) {
                  return arithmetricOp(line);
              }
@@ -91,11 +112,11 @@ class mutUtil {
              }
         }
         
-        void generateMutated() {
+        void generateMutated(string mutated_filename) {
             string line;
             string endofLine = "\n";
             ifstream readFile(path);
-            ofstream mut_prog("mutated_prog.c");
+            ofstream mut_prog(mutated_filename + ".c");
 
             if(readFile) {
                 while(getline(readFile, line)) {
