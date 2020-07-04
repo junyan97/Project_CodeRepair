@@ -19,6 +19,7 @@ class parser {
             for(char *tok = strtok(const_cast<char*>(cleanedLine.c_str()), " ;"); tok != NULL; tok = strtok(NULL, " ;")) {
 
                 tokens.push_back(tok);
+                
             }
 
         }

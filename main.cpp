@@ -37,7 +37,7 @@ int main() {
     exit(EXIT_SUCCESS);
   }
 
-  cout << "Please enter input/output example in the form (input, output): ";
+  cout << "Please enter input/output example in the form ((input),output): ";
   cin >> input_output;
   file.setioString(input_output);
   cout << endl;

@@ -81,8 +81,8 @@ class fileUtil {
                     return false;
         }
 
-        string generateAsserts(string funName, int input, int expected) {
-            return "assert(" + funName + "(" + to_string(input) + ")" + "==" + to_string(expected) + ")";
+        string generateAsserts(string funName, string input, string expected) {
+            return "assert(" + funName + input + "==" + expected + ")";
         }
 
         void generateTest() {
