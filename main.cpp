@@ -6,6 +6,10 @@
 #include "repairUtility.cpp"
 #include "mutationUtility.cpp"
 
+/*
+TODO1: able to determine the number of input require.
+TODO2: remove main function after program repaired.
+*/
 
 using namespace std;
 
