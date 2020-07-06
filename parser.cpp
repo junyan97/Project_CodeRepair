@@ -25,17 +25,25 @@ class parser {
 
         }
         
-        vector<string> getFunNames() {
+        /*vector<string> getFunNames() {
 
             findFunNames();
 
             return funName;
+        }*/
+
+        map<string, int> getProgFunc() {
+            
+            findFunNames();
+
+            return prog_functions;
         }
 
     private:
 
         vector<string> tokens;
         vector<string> funName;
+        map<string, int> prog_functions;
 
         bool functionLine(string line) {
             
@@ -46,6 +54,10 @@ class parser {
             return false;
         }
 
+        int argCounter(string line) {
+            return count(line.begin(), line.end(), ',') + 1;
+        }
+
         void findFunNames() {
 
             for(int i = 0; i < tokens.size(); i++) {
@@ -54,7 +66,12 @@ class parser {
 
                 if(functionLine(curr)) {
 
-                    funName.push_back(curr.substr(curr.find("int") + 4, curr.find("(") - 4));
+                    string functionName = curr.substr(curr.find("int") + 4, curr.find("(") - 4);
+
+                    /*funName.push_back(functionName);*/
+                    prog_functions.insert(make_pair(functionName, argCounter(curr)));
+
+
                 }
             }
         }

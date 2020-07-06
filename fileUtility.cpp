@@ -87,6 +87,7 @@ class fileUtil {
 
         void generateTest() {
             
+            int numofInput;
             string line;
             string semicolon = ";";
             string endofLine = "\n";
@@ -94,10 +95,12 @@ class fileUtil {
             ofstream test_prog ("test_prog.c");
 
             ioUtil io(ioString);
+            numofInput = io.numberofInput();
 
             cout << "generating test file " << endl;
 
-            vector<string> listofFunc = simpleParser.getFunNames();
+            /*vector<string> listofFunc = simpleParser.getFunNames();*/
+            map<string, int>functionMap = simpleParser.getProgFunc();
 
             if(input_prog.is_open()) {
 
@@ -108,9 +111,20 @@ class fileUtil {
 
                 test_prog << "int main(){ " << endofLine;
                 
-                for(int i = 0; i < listofFunc.size(); i++) {
+                /*for(int i = 0; i < listofFunc.size(); i++) {
                     test_prog << generateAsserts(listofFunc[i], io.getInput(), io.getOutput()) << semicolon << endofLine;
-                }
+                }*/
+
+                for(map<string, int>::const_iterator it = functionMap.begin();
+                it != functionMap.end(); it++) {
+                    
+                    if(it->second != numofInput) {
+                        cout << "incorrect numer of input for the function " << it->first << endl;
+                        exit(EXIT_SUCCESS);
+                    }else{
+                        test_prog << generateAsserts(it->first, io.getInput(), io.getOutput()) << semicolon << endofLine;
+                    }
+                }   
 
                 test_prog << "return 0" << semicolon <<endofLine;
                 test_prog << "}" << endofLine;

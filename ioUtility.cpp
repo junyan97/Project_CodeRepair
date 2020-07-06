@@ -15,6 +15,8 @@ class ioUtil {
         ioUtil(string ioString) {
             this->ioString = ioString;
             cleanString();
+            extractIO();
+            countInputs();
         }
 
         string getInput() {
@@ -25,12 +27,18 @@ class ioUtil {
             return this->output;
         }
 
+        int numberofInput() {
+            return this->numofInput;
+        }
+
 
     private:
         
+        int numofInput;
         string input;
         string output;
         string ioString;
+        
 
         int find_n_Occurance(string input, char character, int n) {
 
@@ -58,11 +66,20 @@ class ioUtil {
         
             trim_left(ioString);
             trim_right(ioString);
+            
+        }
+
+        void extractIO() {
 
             input = subString(ioString, find_n_Occurance(ioString, '(', 2), ioString.find(')'));
             output = subString(ioString, ioString.find_last_of(',') + 1, ioString.find_last_of(')') - 1);
 
-            
+        }
+
+        void countInputs() {
+
+            numofInput = count(input.begin(), input.end(), ',') + 1;
+
         }
 
 
