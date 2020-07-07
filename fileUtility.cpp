@@ -5,13 +5,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "parser.cpp"
-#include "ioUtility.cpp"
-
 using namespace std;
 
 class fileUtil {
 
+    response res;
+    errorUtil err;  
+    parser simpleParser;
+    
     public:
 
         fileUtil(string path) {
@@ -34,11 +35,17 @@ class fileUtil {
             string line;
             ifstream readFile(path);
 
+            if(!readFile) {
+                err.errorOpening();
+            }
+
             if(readFile) {
                 while(getline(readFile, line)) {
                     cout << line << endl;
                 }
             }
+
+            readFile.close();
         }
 
 
@@ -47,20 +54,16 @@ class fileUtil {
         string path;
         string ioString;
 
-        parser simpleParser;
-
         bool openFile() {
             string line;
             ifstream readFile(path);
             
             //check to see if file opens.
             if(!readFile) {
-                cerr << "Error, opening file. " << endl;
-                exit(EXIT_FAILURE);
+                err.errorOpening();
             }
             if(!endsWith(path, ".c")) {
-                cerr << "Incorrect files type " << endl;
-                exit(EXIT_FAILURE);
+                err.incorrectFile();
             }
 
             while(getline(readFile, line)) {
@@ -97,9 +100,8 @@ class fileUtil {
             ioUtil io(ioString);
             numofInput = io.numberofInput();
 
-            cout << "generating test file " << endl;
+            res.generatingFile();
 
-            /*vector<string> listofFunc = simpleParser.getFunNames();*/
             map<string, int>functionMap = simpleParser.getProgFunc();
 
             if(input_prog.is_open()) {
@@ -110,17 +112,12 @@ class fileUtil {
                 input_prog.close();
 
                 test_prog << "int main(){ " << endofLine;
-                
-                /*for(int i = 0; i < listofFunc.size(); i++) {
-                    test_prog << generateAsserts(listofFunc[i], io.getInput(), io.getOutput()) << semicolon << endofLine;
-                }*/
 
                 for(map<string, int>::const_iterator it = functionMap.begin();
                 it != functionMap.end(); it++) {
                     
                     if(it->second != numofInput) {
-                        cout << "incorrect numer of input for the function " << it->first << endl;
-                        exit(EXIT_SUCCESS);
+                        err.incorrectInput(it->first);
                     }else{
                         test_prog << generateAsserts(it->first, io.getInput(), io.getOutput()) << semicolon << endofLine;
                     }

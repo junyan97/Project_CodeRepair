@@ -68,7 +68,6 @@ class parser {
 
                     string functionName = curr.substr(curr.find("int") + 4, curr.find("(") - 4);
 
-                    /*funName.push_back(functionName);*/
                     prog_functions.insert(make_pair(functionName, argCounter(curr)));
 
 
