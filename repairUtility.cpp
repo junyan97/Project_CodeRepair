@@ -29,18 +29,21 @@ class repairUtil {
     private:
 
         string path;
+
+        errorUtil err;
+        response res;
       
         bool doesCompile() {
             string compileCommandStr;
 
             compileCommandStr = "gcc " + path + " -o temp" ;
 
-            cout << "Compiling file" << endl;
+            res.message("Compiling file");
+            
             if(system(compileCommandStr.c_str()) == 0) {
                 return true;
             }else{
-                cerr << "File cannot be compiled" << endl;
-                exit(EXIT_FAILURE);
+                err.fileCannotbeCompiled();
             }
         }
 

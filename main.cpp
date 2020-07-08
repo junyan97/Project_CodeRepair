@@ -57,10 +57,10 @@ int main() {
 
   if(file.correctFormat() && !program.requireRepair()) {
     res.dashedLine();
-    res.noRepairRequired();
+    res.message("Program do not require repair");
   }else{
     res.dashedLine();
-    res.repairRequired();
+    res.message("Program require repair");
 
     mutUtil repairProg(generatedTests);
     repairProg.repair(); 

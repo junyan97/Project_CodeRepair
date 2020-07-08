@@ -79,7 +79,7 @@ class fileUtil {
             ioUtil io(ioString);
             numofInput = io.numberofInput();
 
-            res.generatingFile();
+            res.message("generating test file");
 
             map<string, int>functionMap = simpleParser.getProgFunc();
 

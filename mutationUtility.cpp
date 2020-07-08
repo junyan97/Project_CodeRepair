@@ -45,11 +45,13 @@ class mutUtil {
             } while (prog.requireRepair() && mut_cnt < 3);
 
             if(mut_cnt < 2) {
-                cout << endl  << "------------------------------------" << endl;
-                cout << "Program repaired" << endl;
+                res.newLine();
+                res.dashedLine();
+                res.message("Program repaired");
             }else{
-                cout << endl  << "------------------------------------" << endl;
-                cout << "No suitable repair found" << endl;
+                res.newLine();
+                res.dashedLine();
+                res.message("No suitable repair found");
             }
             
             for(int i = 0; i < mut_cnt - 1; i++) {
@@ -64,6 +66,8 @@ class mutUtil {
     
         string path;
         vector<string> operations;
+
+        response res;
 
         bool hasOperations (string line) {
             

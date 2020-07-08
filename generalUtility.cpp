@@ -44,6 +44,13 @@ class errorUtil{
 
         }
 
+        void fileCannotbeCompiled() {
+
+            cerr << "File cannot be compiled" << endl;
+            exit(EXIT_FAILURE);
+
+        }
+
 };
 
 class userPrompt{
@@ -93,21 +100,9 @@ class response{
 
         }
 
-        void noRepairRequired() {
+        void message(string msg) {
 
-            cout << "Program do not require repair" << endl;
-
-        }
-
-        void repairRequired() {
-
-            cout << "Program require repair" << endl;
-
-        }
-
-        void generatingFile(){
-
-            cout << "generating test file " << endl;
+            cout << msg << endl;
         }
 
 };
