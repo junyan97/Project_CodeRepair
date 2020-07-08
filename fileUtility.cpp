@@ -12,6 +12,7 @@ class fileUtil {
     response res;
     errorUtil err;  
     parser simpleParser;
+    fileOperation fOperation;
     
     public:
 
@@ -32,20 +33,8 @@ class fileUtil {
         }
 
         void previewFile() {
-            string line;
-            ifstream readFile(path);
-
-            if(!readFile) {
-                err.errorOpening();
-            }
-
-            if(readFile) {
-                while(getline(readFile, line)) {
-                    cout << line << endl;
-                }
-            }
-
-            readFile.close();
+            
+            fOperation.previewFile(path);
         }
 
 
@@ -59,12 +48,10 @@ class fileUtil {
             ifstream readFile(path);
             
             //check to see if file opens.
-            if(!readFile) {
-                err.errorOpening();
-            }
-            if(!endsWith(path, ".c")) {
-                err.incorrectFile();
-            }
+            fOperation.openFile(readFile);
+
+            //check file extension.
+            fOperation.checkExtension(path, ".c");
 
             while(getline(readFile, line)) {
                 simpleParser.tokenizedLine(line);
@@ -74,14 +61,6 @@ class fileUtil {
             generateTest();
 
             return true;
-        }
-
-        bool endsWith(string mainStr, string toMatch) {
-            if(mainStr.size() >= toMatch.size() &&
-                    mainStr.compare(mainStr.size() - toMatch.size(), toMatch.size(), toMatch) == 0)
-                    return true;
-                else
-                    return false;
         }
 
         string generateAsserts(string funName, string input, string expected) {

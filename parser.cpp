@@ -24,13 +24,6 @@ class parser {
             }
 
         }
-        
-        /*vector<string> getFunNames() {
-
-            findFunNames();
-
-            return funName;
-        }*/
 
         map<string, int> getProgFunc() {
             

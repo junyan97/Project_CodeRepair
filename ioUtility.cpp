@@ -14,7 +14,7 @@ class ioUtil {
 
         ioUtil(string ioString) {
             this->ioString = ioString;
-            cleanString();
+            strManu.trimString(ioString);
             extractIO();
             countInputs();
         }
@@ -38,41 +38,13 @@ class ioUtil {
         string input;
         string output;
         string ioString;
-        
 
-        int find_n_Occurance(string input, char character, int n) {
-
-            int cnt = 0;
-
-            for(int i = 0; i < input.length(); i++) {
-                if(input[i] == character) {
-                    cnt++;
-                }
-                if(cnt == n) {
-                    return i;
-                }
-            }
-            return 0;
-        }
-
-        string subString(string str, int pos1, int pos2) {
-
-            int len_To_Copy = abs(pos2 - pos1) + 1;
-
-            return str.substr(pos1, len_To_Copy);
-        }
-
-        void cleanString() {
-        
-            trim_left(ioString);
-            trim_right(ioString);
-            
-        }
+        stringManupulation strManu;
 
         void extractIO() {
 
-            input = subString(ioString, find_n_Occurance(ioString, '(', 2), ioString.find(')'));
-            output = subString(ioString, ioString.find_last_of(',') + 1, ioString.find_last_of(')') - 1);
+            input = strManu.subString(ioString, strManu.find_n_Occurance(ioString, '(', 2), ioString.find(')'));
+            output = strManu.subString(ioString, ioString.find_last_of(',') + 1, ioString.find_last_of(')') - 1);
 
         }
 
