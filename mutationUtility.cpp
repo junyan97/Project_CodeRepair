@@ -59,6 +59,29 @@ class mutUtil {
                 system(to_Be_Deleted.c_str());
             }
             
+        }
+
+        void mutate(string buggy_prog) {
+
+            int cnt = 0;
+            bool repaired_orginal_prog = false;
+
+            repairUtil prog("");
+            string mutated_filename = "mutated_prog_";
+
+            do {
+
+                repaired_orginal_prog 
+                    ?(
+                        repaired_orginal_prog = false
+                    )
+                    :(
+                        repaired_orginal_prog = true
+                    );
+                
+
+
+            }while(prog.requireRepair());
         }        
         
 
@@ -68,6 +91,7 @@ class mutUtil {
         vector<string> operations;
 
         response res;
+        fileOperation fop;
 
         bool hasOperations (string line) {
             
@@ -135,14 +159,15 @@ class mutUtil {
             ifstream readFile(file_to_mutate);
             ofstream mut_prog(mutated_filename + ".c");
 
-            if(readFile) {
-                while(getline(readFile, line)) {
-                    if(hasOperations(line)) {
-                        mut_prog << mutatedLine(line) << endofLine;
-                    }else{
-                        mut_prog << line << endofLine;
-                    }
+            fop.openFile(readFile);
+            
+            while(getline(readFile, line)) {
+                if(hasOperations(line)) {
+                    mut_prog << mutatedLine(line) << endofLine;
+                }else{
+                    mut_prog << line << endofLine;
                 }
             }
+            
         }
 };
