@@ -20,13 +20,15 @@ using namespace std;
 response res;
 errorUtil err;
 userPrompt prompt;
+ioUtil io;
 
 
 int main() {
 
+  int numofIO;
   string response;
   string filepath;
-  string input_output;
+  /*string input_output;*/
   string generatedTests = "test_prog.c";
 
   prompt.reqFilePath();
@@ -48,9 +50,13 @@ int main() {
     err.resNotRecog();
   }
 
+  prompt.reqNumberofIO();
+  cin >> numofIO;
+  file.setNumofIO(numofIO);
   prompt.reqProgIO();
-  cin >> input_output;
-  file.setioString(input_output);
+  file.getUserInput();
+  /*cin >> input_output;*/
+  /*file.setioString(input_output);*/
   cout << endl;
 
   repairUtil program(generatedTests);

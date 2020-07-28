@@ -75,6 +75,12 @@ class userPrompt{
 
         }
 
+        void reqNumberofIO() {
+
+            cout << "Please enter the number of Input/Output Pairs to be provided: ";
+            
+        }
+
         void reqProgIO() {
 
             cout << "Please enter input/output example in the form ((input),output): ";

@@ -10,7 +10,8 @@ using namespace std;
 class fileUtil {
 
     response res;
-    errorUtil err;  
+    errorUtil err;
+    ioUtil io;  
     parser simpleParser;
     fileOperation fOperation;
     
@@ -20,8 +21,16 @@ class fileUtil {
             this->path = path;
         }
 
-        void setioString(string ioString) {
+        /*void setioString(string ioString) {
             this->ioString = ioString;
+        }*/
+
+        void setNumofIO(int numofIO) {
+            this->numofIO = numofIO;
+        }
+
+        void getUserInput() {
+            io.getUserIO(numofIO);
         }
 
         bool correctFormat() {
@@ -40,6 +49,7 @@ class fileUtil {
 
     private:
 
+        int numofIO;
         string path;
         string ioString;
 
@@ -58,7 +68,8 @@ class fileUtil {
             }
 
             readFile.close();
-            generateTest();
+            /*generateTest();*/
+            testInitialProg();
 
             return true;
         }
@@ -67,7 +78,68 @@ class fileUtil {
             return "assert(" + funName + input + "==" + expected + ")";
         }
 
-        void generateTest() {
+        void copyFile(ifstream &input, ofstream &output) {
+
+            string line;
+            string endofLine = "\n";
+
+            if(input.is_open()) {
+
+                while(getline(input, line)) {
+                    output << line << endofLine;
+                }
+            }
+
+            input.close();
+            
+        }
+
+        void testInitialProg() {
+
+            int numofArguments;
+            int numofIOPairs;
+            string semicolon = ";";
+            string endofLine = "\n";
+            ifstream input_prog(path);
+            ofstream test_prog("test_prog.c");
+            map<string, string> ioPairs;
+
+            copyFile(input_prog, test_prog);
+            numofIOPairs = io.getNumofIOPairs();
+            numofArguments = io.getNumofArguments();
+            ioPairs = io.getIOPairs();
+
+            res.message("generating inital test file");
+
+            map<string, int> functionMap = simpleParser.getProgFunc();
+
+            test_prog << "int main(){ " << endofLine;
+
+                for(map<string, int>::const_iterator it = functionMap.begin();
+                it != functionMap.end(); it++) {
+                    
+                    if(it->second != numofArguments) {
+                        err.incorrectInput(it->first);
+                    }else{
+                        /*test_prog << generateAsserts(it->first, io.getInput(), io.getOutput()) << semicolon << endofLine;*/
+                        for(map<string, string>::const_iterator it1 = ioPairs.begin();
+                        it1 != ioPairs.end(); it1++) {
+                            test_prog << generateAsserts(it->first, it1->first, it1->second) << semicolon << endofLine;
+                        }
+                        
+                    }
+                }   
+
+
+            test_prog << "return 0" << semicolon <<endofLine;
+            test_prog << "}" << endofLine;
+
+            test_prog.close();
+        }
+
+        
+
+        /*void generateTest() {
             
             int numofInput;
             string line;
@@ -108,7 +180,7 @@ class fileUtil {
                 test_prog.close();
             }
             
-        } 
+        }*/ 
 
 };
 

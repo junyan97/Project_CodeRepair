@@ -12,12 +12,12 @@ class ioUtil {
 
     public:
 
-        ioUtil(/*string ioString*/) {
-            /*this->ioString = ioString;
+        /*ioUtil(string ioString) {
+            this->ioString = ioString;
             strManu.trimString(ioString);
             extractIO();
-            countInputs();*/
-        }
+            countInputs();
+        }*/
 
         /*string getInput() {
             return this->input;
@@ -30,6 +30,14 @@ class ioUtil {
         int numberofInput() {
             return this->numofInput;
         }*/
+
+        int getNumofArguments() {
+            return numofArguments;
+        }
+
+        int getNumofIOPairs() {
+            return ioPairs.size();
+        }
 
         void getUserIO(int numofIO) {
 
@@ -76,6 +84,8 @@ class ioUtil {
         string output;
         string ioString;*/
 
+        int numofArguments;
+
         stringManupulation strManu;
 
         /*Store user Input*/
@@ -98,6 +108,8 @@ class ioUtil {
                 
                 ioPairs.insert(make_pair(tempInput, tempOutput));
             }
+
+            countArguments();
         }
 
 
@@ -108,11 +120,15 @@ class ioUtil {
 
         }*/
 
-        /*void countInputs() {
+        void countArguments() {
+            
+            /*Able to add functionality to check if number of Argument correspond to inputs*/
+            
+            map<string, string>::const_iterator pt = ioPairs.begin();
 
-            numofInput = count(input.begin(), input.end(), ',') + 1;
+            numofArguments = count(pt->first.begin(), pt->first.end(), ',') + 1;
 
-        }*/
+        }
 
 
 };
