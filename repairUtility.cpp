@@ -43,6 +43,7 @@ class repairUtil {
             if(system(compileCommandStr.c_str()) == 0) {
                 return true;
             }else{
+                return false;
                 err.fileCannotbeCompiled();
             }
         }
