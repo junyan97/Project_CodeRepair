@@ -13,9 +13,15 @@ class mutatedProg {
             this->progPath = path;
         }
 
+        void setIO(ioUtil io) {
+            this->io = io;
+        }
+
     private:
         int fitness;
         string progPath;
+
+        ioUtil io;
 
 
 };

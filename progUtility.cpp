@@ -7,17 +7,16 @@
 
 using namespace std;
 
-class fileUtil {
+class progUtil {
 
     response res;
     errorUtil err;
-    /*ioUtil io;*/  
     parser simpleParser;
     fileOperation fOperation;
     
     public:
 
-        fileUtil(string path) {
+        progUtil(string path) {
             this->path = path;
         }
 

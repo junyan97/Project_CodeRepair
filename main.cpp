@@ -5,9 +5,10 @@
 #include "generalUtility.cpp"
 #include "parser.cpp"
 #include "ioUtility.cpp"
-#include "fileUtility.cpp"
+#include "progUtility.cpp"
 #include "repairUtility.cpp"
 #include "mutationUtility.cpp"
+#include "mutatedProg.cpp"
 
 
 /*
@@ -34,7 +35,7 @@ int main() {
   prompt.reqFilePath();
   cin >> filepath;
 
-  fileUtil file(filepath);
+  progUtil file(filepath);
 
   prompt.filePathConfimation();
   res.dashedLine();
