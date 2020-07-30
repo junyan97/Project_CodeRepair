@@ -52,9 +52,10 @@ int main() {
 
   prompt.reqNumberofIO();
   cin >> numofIO;
-  file.setNumofIO(numofIO);
+  io.setNumberofIO(numofIO);
   prompt.reqProgIO();
-  file.getUserInput();
+  io.getUserIO();
+  file.setIO(io);
   /*cin >> input_output;*/
   /*file.setioString(input_output);*/
   cout << endl;

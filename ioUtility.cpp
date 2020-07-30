@@ -12,25 +12,6 @@ class ioUtil {
 
     public:
 
-        /*ioUtil(string ioString) {
-            this->ioString = ioString;
-            strManu.trimString(ioString);
-            extractIO();
-            countInputs();
-        }*/
-
-        /*string getInput() {
-            return this->input;
-        }
-
-        string getOutput() {
-            return this->output;
-        }
-
-        int numberofInput() {
-            return this->numofInput;
-        }*/
-
         int getNumofArguments() {
             return numofArguments;
         }
@@ -39,7 +20,11 @@ class ioUtil {
             return ioPairs.size();
         }
 
-        void getUserIO(int numofIO) {
+        void setNumberofIO(int numofIO) {
+            this->numofIO = numofIO;
+        }
+
+        void getUserIO() {
 
             string tempIO;
 
@@ -53,7 +38,7 @@ class ioUtil {
             createIOMap();
         }
 
-        vector<string> getUserIO() {
+        vector<string> getUserIOVec() {
             return userIO;
         }
 
@@ -83,7 +68,7 @@ class ioUtil {
         string input;
         string output;
         string ioString;*/
-
+        int numofIO;
         int numofArguments;
 
         stringManupulation strManu;

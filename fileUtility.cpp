@@ -11,7 +11,7 @@ class fileUtil {
 
     response res;
     errorUtil err;
-    ioUtil io;  
+    /*ioUtil io;*/  
     parser simpleParser;
     fileOperation fOperation;
     
@@ -21,16 +21,8 @@ class fileUtil {
             this->path = path;
         }
 
-        /*void setioString(string ioString) {
-            this->ioString = ioString;
-        }*/
-
-        void setNumofIO(int numofIO) {
-            this->numofIO = numofIO;
-        }
-
-        void getUserInput() {
-            io.getUserIO(numofIO);
+        void setIO(ioUtil io) {
+            this->io = io;
         }
 
         bool correctFormat() {
@@ -49,9 +41,8 @@ class fileUtil {
 
     private:
 
-        int numofIO;
         string path;
-        string ioString;
+        ioUtil io;
 
         bool openFile() {
             string line;
@@ -68,7 +59,6 @@ class fileUtil {
             }
 
             readFile.close();
-            /*generateTest();*/
             testInitialProg();
 
             return true;
@@ -130,57 +120,11 @@ class fileUtil {
                     }
                 }   
 
-
             test_prog << "return 0" << semicolon <<endofLine;
             test_prog << "}" << endofLine;
 
             test_prog.close();
         }
-
-        
-
-        /*void generateTest() {
-            
-            int numofInput;
-            string line;
-            string semicolon = ";";
-            string endofLine = "\n";
-            ifstream input_prog (path);
-            ofstream test_prog ("test_prog.c");
-
-            ioUtil io(ioString);
-            numofInput = io.numberofInput();
-
-            res.message("generating test file");
-
-            map<string, int>functionMap = simpleParser.getProgFunc();
-
-            if(input_prog.is_open()) {
-
-                while(getline(input_prog, line)) {
-                    test_prog << line << endofLine;
-                }
-                input_prog.close();
-
-                test_prog << "int main(){ " << endofLine;
-
-                for(map<string, int>::const_iterator it = functionMap.begin();
-                it != functionMap.end(); it++) {
-                    
-                    if(it->second != numofInput) {
-                        err.incorrectInput(it->first);
-                    }else{
-                        test_prog << generateAsserts(it->first, io.getInput(), io.getOutput()) << semicolon << endofLine;
-                    }
-                }   
-
-                test_prog << "return 0" << semicolon <<endofLine;
-                test_prog << "}" << endofLine;
-
-                test_prog.close();
-            }
-            
-        }*/ 
 
 };
 

@@ -83,7 +83,7 @@ class userPrompt{
 
         void reqProgIO() {
 
-            cout << "Please enter input/output example in the form ((input),output): ";
+            cout << "Please enter input/output example in the form ((input),output): " << endl;
 
         }
 
