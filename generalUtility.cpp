@@ -155,6 +155,10 @@ class stringManupulation{
             return str.substr(pos1, len_To_Copy);
         }
 
+        string generateAsserts(string funName, string input, string expected) {
+            return "assert(" + funName + input + "==" + expected + ")";
+        }
+
 };
 
 class fileOperation{
@@ -192,6 +196,23 @@ class fileOperation{
             }
 
             readFile.close();
+
+        }
+
+        vector<string> copyFiletoVector(string path) {
+
+            string line;
+            ifstream readFile(path);
+            vector<string>temp;
+
+            openFile(readFile);
+            checkExtension(path, ".c");
+
+            while(getline(readFile, line)) {
+                temp.push_back(line);
+            }
+
+            return temp;
 
         }
 

@@ -13,6 +13,7 @@ class progUtil {
     errorUtil err;
     parser simpleParser;
     fileOperation fOperation;
+    stringManupulation strOperation;
     
     public:
 
@@ -63,10 +64,6 @@ class progUtil {
             return true;
         }
 
-        string generateAsserts(string funName, string input, string expected) {
-            return "assert(" + funName + input + "==" + expected + ")";
-        }
-
         void copyFile(ifstream &input, ofstream &output) {
 
             string line;
@@ -113,7 +110,7 @@ class progUtil {
                         /*test_prog << generateAsserts(it->first, io.getInput(), io.getOutput()) << semicolon << endofLine;*/
                         for(map<string, string>::const_iterator it1 = ioPairs.begin();
                         it1 != ioPairs.end(); it1++) {
-                            test_prog << generateAsserts(it->first, it1->first, it1->second) << semicolon << endofLine;
+                            test_prog << strOperation.generateAsserts(it->first, it1->first, it1->second) << semicolon << endofLine;
                         }
                         
                     }
