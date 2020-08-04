@@ -216,4 +216,19 @@ class fileOperation{
 
         }
 
+        bool copyVectortoFile(string path, vector<string> vecToCopy) {
+
+            string endofLine = "\n";
+            ofstream prog(path);
+
+            if(prog) {
+                for(int i = 0; i < vecToCopy.size(); i++) {
+                    prog << vecToCopy[i] << endofLine;
+                }
+                return true;
+            }
+
+            return false;
+        }
+
 };

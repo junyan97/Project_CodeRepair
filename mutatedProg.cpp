@@ -11,13 +11,16 @@ class mutatedProg {
     public:
         mutatedProg(string path) {
             this->progPath = path;
-            progFunction = fp.copyFiletoVector(progPath);
-            getFunName();
-            getFunction();
+            progFunction = fp.copyFiletoVector(progPath);      
         }
-
         void setIO(ioUtil io) {
             this->io = io;
+        }
+
+        void execute() {
+            getFunName();
+            getFunction();
+            progFitness();
         }
 
         int getFitness() {
@@ -31,6 +34,7 @@ class mutatedProg {
         string functionName;
         vector<string> progMain;
         vector<string> progFunction;
+        vector<string> testProg;
 
 
         ioUtil io;
@@ -64,21 +68,72 @@ class mutatedProg {
             progMain.push_back("return 0" + semicolon + endofLine);
             progMain.push_back("}" + endofLine);
 
+            /*cout << "Created Main" << endl;
+
+            for(int i = 0; i < progMain.size(); i++) {
+                cout << progMain[i] << endl;
+            }*/
+
         }
 
-        void createTest() {
+        void createTestProg() {
 
-            
+            testProg.clear();
+
+            //Copying function vector
+            for(int i = 0; i < progFunction.size(); i++) {
+                testProg.push_back(progFunction[i]);
+            }
+
+            //copying mainFuction vector
+            for(int i = 0; i < progMain.size(); i++) {
+                testProg.push_back(progMain[i]);
+            }
+
+            /*cout << "Created testProg " << endl;
+
+            for(int i = 0; i < testProg.size(); i++) {
+                cout << testProg[i] << endl;
+            }*/
+
+        }
+
+        bool executeProg() {
+
+            string testProgFile = "testProg.c";
             
 
+            if(fp.copyVectortoFile(testProgFile, testProg)) {
+                
+                repairUtil rp(testProgFile);
+                
+                if(!rp.requireRepair()) {
+                    return true;
+                }
+            }
+
+            return false;
         }  
 
         void progFitness() {
 
-            for(map<string, string>::const_iterator it = io.getIOPairs().begin();
-            it != io.getIOPairs().end(); it++) {
+            fitness = 0;
+            string removeTestFileCmd = "rm testProg.c";
+            map<string, string>ioPairs = io.getIOPairs();
+
+            for(map<string, string>::const_iterator it = ioPairs.begin();
+            it != ioPairs.end(); it++) {
+
+                createMain(it->first, it->second);
+                createTestProg();
+
+                if(executeProg()) {
+                    fitness++;
+                }
 
             }
+
+            system(removeTestFileCmd.c_str());
 
         }
 
