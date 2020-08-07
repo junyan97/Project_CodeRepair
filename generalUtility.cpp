@@ -183,23 +183,6 @@ class fileOperation{
             }
         }
 
-        /*void previewFile(string path) {
-
-            string line;
-            ifstream readFile(path);
-
-            openFile(readFile);
-
-            if(readFile) {
-                while(getline(readFile, line)) {
-                    cout << line << endl;
-                }
-            }
-
-            readFile.close();
-
-        }*/
-
         void previewFile(vector<string> prog) {
 
             for(int i = 0; i < prog.size(); i++) {
@@ -242,14 +225,16 @@ class fileOperation{
             return false;
         }
 
-        void copyVector(vector<string>origin, vector<string>destination) {
+        vector<string> copyVector(vector<string>origin) {
 
-            destination.clear();
+            vector<string>temp;
 
             for(int i = 0; i < origin.size(); i++) {
 
-                destination.push_back(origin[i]);
+                temp.push_back(origin[i]);
             }
+
+            return temp;
         }
 
 };

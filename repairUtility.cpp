@@ -40,7 +40,7 @@ class repairUtil {
         void initialliseInitialProg() {
             
             getProgFunction(prog);
-            copyFunction();
+            initialProg = fOperation.copyVector(prog);
             testInitialProg();
             fOperation.copyVectortoFile("testFile.c", initialProg);
 
@@ -87,13 +87,6 @@ class repairUtil {
 
                 simpleParser.tokenizedLine(prog[i]);
 
-            }
-        }
-
-        void copyFunction() {
-            
-            for(int i = 0; i < prog.size(); i++) {
-                initialProg.push_back(prog[i]);
             }
         }
 
