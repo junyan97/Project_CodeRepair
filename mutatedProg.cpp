@@ -100,19 +100,14 @@ class mutatedProg {
 
         bool executeProg() {
 
-            string testProgFile = "testProg.c";
-            
+            repairUtil rp(testProg);
 
-            if(fp.copyVectortoFile(testProgFile, testProg)) {
-                
-                repairUtil rp(testProgFile);
-                
-                if(!rp.requireRepair()) {
-                    return true;
-                }
+            if(!rp.requireRepair()) {
+                return true;
             }
 
             return false;
+            
         }  
 
         void progFitness() {

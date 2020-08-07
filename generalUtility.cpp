@@ -47,6 +47,7 @@ class errorUtil{
         void fileCannotbeCompiled() {
 
             cerr << "File cannot be compiled" << endl;
+            system("rm temp");
             exit(EXIT_FAILURE);
 
         }
@@ -182,7 +183,7 @@ class fileOperation{
             }
         }
 
-        void previewFile(string path) {
+        /*void previewFile(string path) {
 
             string line;
             ifstream readFile(path);
@@ -197,6 +198,13 @@ class fileOperation{
 
             readFile.close();
 
+        }*/
+
+        void previewFile(vector<string> prog) {
+
+            for(int i = 0; i < prog.size(); i++) {
+                cout << prog[i] << endl;
+            }
         }
 
         vector<string> copyFiletoVector(string path) {
@@ -225,10 +233,23 @@ class fileOperation{
                 for(int i = 0; i < vecToCopy.size(); i++) {
                     prog << vecToCopy[i] << endofLine;
                 }
+
+                prog.close();
+                
                 return true;
             }
 
             return false;
+        }
+
+        void copyVector(vector<string>origin, vector<string>destination) {
+
+            destination.clear();
+
+            for(int i = 0; i < origin.size(); i++) {
+
+                destination.push_back(origin[i]);
+            }
         }
 
 };
