@@ -8,6 +8,7 @@
 #include "repairUtility.cpp"
 /*#include "mutationUtility.cpp"*/
 #include "mutatedProg.cpp"
+#include "mutationUtility_v2.cpp"
 
 using namespace std;
 
@@ -51,7 +52,7 @@ int main() {
   file.setIO(io);
   cout << endl;
 
-  if(file.initialProgRepair()) {
+  if(!file.initialProgRepair()) {
     res.dashedLine();
     res.message("Program do not require repair");
   }else{

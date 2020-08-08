@@ -9,9 +9,8 @@ using namespace std;
 class mutatedProg {
 
     public:
-        mutatedProg(string path) {
-            this->progPath = path;
-            progFunction = fp.copyFiletoVector(progPath);      
+        mutatedProg(vector<string> prog) {
+            this->progFunction = prog;
         }
         void setIO(ioUtil io) {
             this->io = io;
@@ -30,7 +29,7 @@ class mutatedProg {
 
     private:
         int fitness;
-        string progPath;
+        /*string progPath;*/
         string functionName;
         vector<string> progMain;
         vector<string> progFunction;

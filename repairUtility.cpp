@@ -69,9 +69,9 @@ class repairUtil {
 
                 system("rm temp");
                 system("rm testFile.c");
-                return true;
-            }else{
                 return false;
+            }else{
+                return true;
             }
         }
 
