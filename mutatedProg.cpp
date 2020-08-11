@@ -127,8 +127,6 @@ class mutatedProg {
 
             }
 
-            system(removeTestFileCmd.c_str());
-
         }
 
 

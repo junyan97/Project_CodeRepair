@@ -68,7 +68,7 @@ class repairUtil {
             if(doesCompile() && doesExecute()) {
 
                 system("rm temp");
-                system("rm testFile.c");
+                /*system("rm testFile.c");*/
                 return false;
             }else{
                 return true;
