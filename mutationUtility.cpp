@@ -12,8 +12,8 @@ class mutUtil {
     public:
 
         mutUtil(vector<string> prog, ioUtil io) {
-            this->prog = prog;
             this->io = io;
+            this->prog = prog;
             arithmetricOperations.push_back("+");
             arithmetricOperations.push_back("-");
             arithmetricOperations.push_back("*");
@@ -269,4 +269,57 @@ class mutUtil {
             }
 
         }
-}; 
+};
+
+class mutChecker {
+
+    public:
+
+        mutChecker(vector<class mutatedProg> list, ioUtil io) {
+            this->io = io;
+            this->listofMutatedProg = list;
+
+            findRepairedProg(); 
+        }
+
+        bool repairFound() {
+
+            if(repairedProg.size() != 0) {
+                
+                return true;
+            }
+
+            return false;
+        }
+
+        vector<class mutatedProg> getRepairedProg() {
+
+            return repairedProg;
+        }
+
+
+
+    private:
+
+        ioUtil io;
+        vector<class mutatedProg>repairedProg;
+        vector<class mutatedProg>listofMutatedProg;
+
+        void findRepairedProg() {
+
+            int numOfIO;
+
+            numOfIO = io.getNumofIOPairs(); 
+
+            for(int i = 0; i < listofMutatedProg.size(); i++) {
+                
+                if(listofMutatedProg[i].getFitness() == numOfIO) {
+
+                   repairedProg.push_back(listofMutatedProg[i]);
+
+                }
+            }
+        }
+
+
+};

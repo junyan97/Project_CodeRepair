@@ -14,12 +14,11 @@ class mutatedProg {
         }
         void setIO(ioUtil io) {
             this->io = io;
+            execute();
         }
 
-        void execute() {
-            getFunName();
-            getFunction();
-            progFitness();
+        vector<string> getMutatedProg() {
+            return progFunction;
         }
 
         int getFitness() {
@@ -29,7 +28,6 @@ class mutatedProg {
 
     private:
         int fitness;
-        /*string progPath;*/
         string functionName;
         vector<string> progMain;
         vector<string> progFunction;
@@ -112,7 +110,6 @@ class mutatedProg {
         void progFitness() {
 
             fitness = 0;
-            string removeTestFileCmd = "rm testProg.c";
             map<string, string>ioPairs = io.getIOPairs();
 
             for(map<string, string>::const_iterator it = ioPairs.begin();
@@ -124,9 +121,13 @@ class mutatedProg {
                 if(executeProg()) {
                     fitness++;
                 }
-
             }
+        }
 
+         void execute() {
+            getFunName();
+            getFunction();
+            progFitness();
         }
 
 
