@@ -103,11 +103,22 @@ class mutUtil {
 
             string removed;
             map<string, vector<string> >temp;
+            vector<string> specialOperation;
             vector<string> operationsRemoved;
 
             concatVectors(arithmetricOperations, &operationsRemoved);
 
-            if(contains(line, "+")) {
+            if(contains(line, "++")) {
+                removed = "++";
+                specialOperation.push_back("--");
+                temp.insert(make_pair(removed, specialOperation));
+            }
+            else if(contains(line, "--")) {
+                removed = "--";
+                specialOperation.push_back("++");
+                temp.insert(make_pair(removed, specialOperation));
+            }
+            else if(contains(line, "+")) {
                 removed = "+";
                 removeElement(operationsRemoved, "+");
             }

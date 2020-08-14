@@ -89,9 +89,11 @@ int main() {
         
         res.dashedLine();
         res.message("no repair found");
-    }
-    
+    } 
   }
+
+   system("rm testFile.c");
+   system("rm temp");
 
   cout << endl;
 
