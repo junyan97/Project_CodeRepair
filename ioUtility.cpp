@@ -7,6 +7,7 @@
 using namespace std;
 using namespace boost::algorithm;
 
+
 class ioUtil {
 
     public:
@@ -21,6 +22,12 @@ class ioUtil {
 
         void setNumberofIO(int numofIO) {
             this->numofIO = numofIO;
+        }
+
+        void setIOfile(string IOfilename) {
+            this->IOfilename = IOfilename;
+
+            readIOfile();
         }
 
         void getUserIO() {
@@ -50,6 +57,7 @@ class ioUtil {
         
         int numofIO;
         int numofArguments;
+        string IOfilename;
 
         stringManupulation strManu;
 
@@ -87,5 +95,18 @@ class ioUtil {
 
         }
 
+        void readIOfile() {
 
+            string str;
+            ifstream file(IOfilename);
+
+            while(getline(file, str)) {
+
+                strManu.trimString(str);
+                userIO.push_back(str);
+
+            }
+            
+            createIOMap();
+        }
 };

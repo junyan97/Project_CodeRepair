@@ -43,15 +43,39 @@ bool fileConfirmation(vector<string> fileInVec) {
 
 void requestIO() {
 
-    int numofIO;
+    string response;
 
-    prompt.reqNumberofIO();
-    cin >> numofIO;
-    io.setNumberofIO(numofIO);
-    prompt.reqProgIO();
-    io.getUserIO();
+    prompt.reqIOoption();
+    cin >> response;
+
+    if(response == "yes") {
+
+      int numofIO;
+
+      prompt.reqNumberofIO();
+      cin >> numofIO;
+      io.setNumberofIO(numofIO);
+      prompt.reqProgIO();
+      io.getUserIO();
+
+    }
+    else if(response == "no") {
+
+      string ioFile;
+
+      prompt.reqIOfile();
+      cin >> ioFile;
+      io.setIOfile(ioFile);
+
+    }else{
+
+      res.message("Incorrect usuage: Please enter yes or no");
+      err.opCancelled();
+
+    }
 
 }
+
 
 int main(int argc, char **argv) {
     
@@ -60,6 +84,7 @@ int main(int argc, char **argv) {
 
     if(argc != 2) {
 
+        res.message("Incorrect usuage: Please enter the file to be repaired");
         err.opCancelled();   
     }
 
@@ -112,7 +137,7 @@ int main(int argc, char **argv) {
       }
 
         system("rm testFile.c");
-        system("rm temp"); 
+        /*system("rm temp");*/ 
     }
 
     

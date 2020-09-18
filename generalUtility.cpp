@@ -88,6 +88,17 @@ class userPrompt{
 
         }
 
+        void reqIOoption() {
+
+            cout << "Do you want to input Input/Output pair manually? ";
+
+        }
+
+        void reqIOfile() {
+
+            cout << "Please enter exact path of IO file: ";
+            
+        }
 
 };
 
