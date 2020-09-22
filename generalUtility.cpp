@@ -66,7 +66,7 @@ class userPrompt{
 
         void filePathConfimation() {
 
-            cout << "Is the following the file to be inspected" << endl;
+            cout << "Is the following the file to be inspected [yes/no] " << endl;
 
         }
 
@@ -90,7 +90,7 @@ class userPrompt{
 
         void reqIOoption() {
 
-            cout << "Do you want to input Input/Output pair manually? ";
+            cout << "Do you want to input Input/Output pair manually? [yes/no] ";
 
         }
 
