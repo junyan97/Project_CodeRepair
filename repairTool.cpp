@@ -17,28 +17,12 @@ userPrompt prompt;
 ioUtil io;
 fileOperation fp;
 
-bool fileConfirmation(vector<string> fileInVec) {
-
-    string response;
-
+void filePreview(vector<string> fileInVec) {
+    
     prompt.filePathConfimation();
     res.dashedLine();
     fp.previewFile(fileInVec);
     res.newLine();
-    prompt.userConfirmation();
-    cin >> response;
-
-    if(response == "no") {
-
-      err.opCancelled();
-    }
-    else if (response != "yes") {
-
-      return false;
-    }
-
-    return true;
-
 }
 
 void requestIO() {
@@ -92,10 +76,7 @@ int main(int argc, char **argv) {
 
     repairUtil file(prog);
 
-    if(!fileConfirmation(prog)) {
-
-        err.opCancelled();
-    }
+    filePreview(prog);
     
     requestIO();
     file.setIO(io);

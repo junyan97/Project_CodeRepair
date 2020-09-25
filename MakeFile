@@ -1,0 +1,8 @@
+CC = g++
+
+CFLAGS = -std=c++11
+
+repairTool:repairTool.cpp
+	$(CC) $(CFLAGS) repairTool.cpp -o repairTool
+
+	

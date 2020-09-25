@@ -1,6 +1,7 @@
 #include <cmath>
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <stdlib.h>
 #include <boost/algorithm/string.hpp>
 

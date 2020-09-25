@@ -66,7 +66,7 @@ class userPrompt{
 
         void filePathConfimation() {
 
-            cout << "Is the following the file to be inspected [yes/no] " << endl;
+            cout << endl << "Is the following the file to be inspected [yes/no] " << endl;
 
         }
 
