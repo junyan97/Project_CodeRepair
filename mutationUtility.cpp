@@ -203,16 +203,19 @@ class mutUtil {
             if (contains(line, "+") || contains(line, "-") || contains(line, "*")
              || contains(line, "/") || contains(line, "%")) {
 
+                cout << "Class 1" << endl;
                 temp = arithmetricOp(line);
 
              }
              else if(contains(line, "<") || contains(line, "<=") || contains(line, ">") 
              || contains(line, ">=")) {
 
+                 cout << "Class 2" << endl;
                  temp = relationalOp(line);
 
              }else{
 
+                 cout << "Class 3" << endl;
                  temp = logicOp(line);
              }
 
@@ -272,7 +275,6 @@ class mutUtil {
                         mutated.setIO(io);
 
                         listofMutatedProg.push_back(mutated);
-
 
                     }
 

@@ -64,13 +64,6 @@ class mutatedProg {
             progMain.push_back(strOperation.generateAsserts(functionName, input, output) + semicolon + endofLine);
             progMain.push_back("return 0" + semicolon + endofLine);
             progMain.push_back("}" + endofLine);
-
-            /*cout << "Created Main" << endl;
-
-            for(int i = 0; i < progMain.size(); i++) {
-                cout << progMain[i] << endl;
-            }*/
-
         }
 
         void createTestProg() {
@@ -87,17 +80,19 @@ class mutatedProg {
                 testProg.push_back(progMain[i]);
             }
 
-            /*cout << "Created testProg " << endl;
-
-            for(int i = 0; i < testProg.size(); i++) {
-                cout << testProg[i] << endl;
-            }*/
-
         }
 
         bool executeProg() {
 
             repairUtil rp(testProg);
+
+            cout << endl << "mutated prog" << endl;
+
+            for(int i = 0; i < testProg.size(); i++) {
+                cout << testProg[i] << endl;
+            }
+
+            cout << endl;
 
             if(!rp.requireRepair()) {
                 return true;

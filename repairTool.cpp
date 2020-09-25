@@ -16,6 +16,7 @@ errorUtil err;
 userPrompt prompt;
 ioUtil io;
 fileOperation fp;
+stringManupulation sm;
 
 void filePreview(vector<string> fileInVec) {
     
@@ -63,6 +64,7 @@ void requestIO() {
 
 int main(int argc, char **argv) {
     
+    string filename;
     vector<string> prog;
     vector<class mutatedProg> listofMutatedProg;
 
@@ -73,6 +75,7 @@ int main(int argc, char **argv) {
     }
 
     prog = fp.copyFiletoVector(argv[1]);
+    filename = sm.extractFilename(argv[1]);
 
     repairUtil file(prog);
 
@@ -82,12 +85,12 @@ int main(int argc, char **argv) {
     file.setIO(io);
     cout << endl;
 
-    if(file.initialProgRepair()) {
+    if(file.initialProgRepair()) {  
+      res.message("Input Program do not require repair");
       res.dashedLine();
-      res.message("Program do not require repair");
-    }else{
+    }else{    
+      res.message("Input Program require repair");
       res.dashedLine();
-      res.message("Program require repair");
 
       mutUtil mutate(prog, io);
       
@@ -106,7 +109,7 @@ int main(int argc, char **argv) {
 
           for(int i = 0; i < temp.size(); i++) {
 
-            string filePath = "repairedProgram/prog_";
+            string filePath = "repairedProgram/" + filename + "_";
 
             fp.copyVectortoFile(filePath + to_string(i) + ".c", temp[i].getMutatedProg());
 
@@ -118,7 +121,7 @@ int main(int argc, char **argv) {
       }
 
         system("rm testFile.c");
-        /*system("rm temp");*/ 
+        system("rm temp");
     }
 
     

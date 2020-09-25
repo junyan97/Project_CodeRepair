@@ -171,6 +171,18 @@ class stringManupulation{
             return "assert(" + funName + input + "==" + expected + ")";
         }
 
+        string extractFilename(string str) {
+
+            string fileName;
+            string dirRemoved;
+            
+            dirRemoved = subString(str, find_n_Occurance(str, '/', 1) + 1, str.length());
+            fileName = subString(dirRemoved, 0, find_n_Occurance(dirRemoved, '.', 1) - 1);
+
+            return fileName;
+        }
+
+
 };
 
 class fileOperation{
