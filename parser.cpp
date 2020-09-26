@@ -6,66 +6,70 @@
 using namespace std;
 using namespace boost::algorithm;
 
-class parser {
+class parser
+{
 
-    public:
+public:
+    void tokenizedLine(string line)
+    {
 
-        void tokenizedLine(string line) {
+        string token = "";
+        string cleanedLine = line;
 
-            string token = "";
-            string cleanedLine = line;
+        boost::trim_right(cleanedLine);
+        boost::trim_left(cleanedLine);
 
-            boost::trim_right(cleanedLine);
-            boost::trim_left(cleanedLine);
+        for (char *tok = strtok(const_cast<char *>(cleanedLine.c_str()), ";"); tok != NULL; tok = strtok(NULL, ";"))
+        {
 
-            for(char *tok = strtok(const_cast<char*>(cleanedLine.c_str()), ";"); tok != NULL; tok = strtok(NULL, ";")) {
+            tokens.push_back(tok);
+        }
+    }
 
-                tokens.push_back(tok);
-                
+    map<string, int> getProgFunc()
+    {
+
+        findFunNames();
+
+        return prog_functions;
+    }
+
+private:
+    vector<string> tokens;
+    vector<string> funName;
+    map<string, int> prog_functions;
+
+    bool functionLine(string line)
+    {
+
+        if (line.rfind("int", 0) == 0 && contains(line, "(") && contains(line, ")") && contains(line, "{"))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    int argCounter(string line)
+    {
+        return count(line.begin(), line.end(), ',') + 1;
+    }
+
+    void findFunNames()
+    {
+
+        for (int i = 0; i < tokens.size(); i++)
+        {
+
+            string curr = tokens[i];
+
+            if (functionLine(curr))
+            {
+
+                string functionName = curr.substr(curr.find("int") + 4, curr.find("(") - 4);
+
+                prog_functions.insert(make_pair(functionName, argCounter(curr)));
             }
-
         }
-
-        map<string, int> getProgFunc() {
-            
-            findFunNames();
-
-            return prog_functions;
-        }
-
-    private:
-
-        vector<string> tokens;
-        vector<string> funName;
-        map<string, int> prog_functions;
-
-        bool functionLine(string line) {
-            
-            if(line.rfind("int", 0) == 0 && contains(line, "(") && contains(line, ")") && contains(line, "{")) {
-                return true;
-            }
-
-            return false;
-        }
-
-        int argCounter(string line) {
-            return count(line.begin(), line.end(), ',') + 1;
-        }
-
-        void findFunNames() {
-
-            for(int i = 0; i < tokens.size(); i++) {
-
-                string curr = tokens[i];
-
-                if(functionLine(curr)) {
-
-                    string functionName = curr.substr(curr.find("int") + 4, curr.find("(") - 4);
-
-                    prog_functions.insert(make_pair(functionName, argCounter(curr)));
-
-
-                }
-            }
-        }
+    }
 };

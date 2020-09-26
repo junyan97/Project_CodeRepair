@@ -5,126 +5,136 @@
 
 using namespace std;
 
+class mutatedProg
+{
 
-class mutatedProg {
+public:
+    mutatedProg(vector<string> prog)
+    {
+        this->progFunction = prog;
+    }
+    void setIO(ioUtil io)
+    {
+        this->io = io;
+        execute();
+    }
 
-    public:
-        mutatedProg(vector<string> prog) {
-            this->progFunction = prog;
+    vector<string> getMutatedProg()
+    {
+        return progFunction;
+    }
+
+    int getFitness()
+    {
+        return fitness;
+    }
+
+private:
+    int fitness;
+    string functionName;
+    vector<string> progMain;
+    vector<string> progFunction;
+    vector<string> testProg;
+
+    ioUtil io;
+    fileOperation fp;
+    parser simpleparser;
+    stringManupulation strOperation;
+
+    void getFunName()
+    {
+
+        for (int i = 0; i < progFunction.size(); i++)
+        {
+
+            simpleparser.tokenizedLine(progFunction[i]);
         }
-        void setIO(ioUtil io) {
-            this->io = io;
-            execute();
+    }
+
+    void getFunction()
+    {
+
+        functionName = simpleparser.getProgFunc().begin()->first;
+    }
+
+    void createMain(string input, string output)
+    {
+
+        string semicolon = ";";
+        string endofLine = "\n";
+
+        progMain.clear();
+        progMain.push_back("int main(){" + endofLine);
+        progMain.push_back(strOperation.generateAsserts(functionName, input, output) + semicolon + endofLine);
+        progMain.push_back("return 0" + semicolon + endofLine);
+        progMain.push_back("}" + endofLine);
+    }
+
+    void createTestProg()
+    {
+
+        testProg.clear();
+
+        //Copying function vector
+        for (int i = 0; i < progFunction.size(); i++)
+        {
+            testProg.push_back(progFunction[i]);
         }
 
-        vector<string> getMutatedProg() {
-            return progFunction;
+        //copying mainFuction vector
+        for (int i = 0; i < progMain.size(); i++)
+        {
+            testProg.push_back(progMain[i]);
+        }
+    }
+
+    bool executeProg()
+    {
+
+        repairUtil rp(testProg);
+
+        cout << endl
+             << "mutated prog" << endl;
+
+        for (int i = 0; i < testProg.size(); i++)
+        {
+            cout << testProg[i] << endl;
         }
 
-        int getFitness() {
-            return fitness;
+        cout << endl << endl;
+
+        if (!rp.requireRepair())
+        {
+            return true;
         }
 
+        return false;
+    }
 
-    private:
-        int fitness;
-        string functionName;
-        vector<string> progMain;
-        vector<string> progFunction;
-        vector<string> testProg;
+    void progFitness()
+    {
 
+        fitness = 0;
+        map<string, string> ioPairs = io.getIOPairs();
 
-        ioUtil io;
-        fileOperation fp;
-        parser simpleparser;
-        stringManupulation strOperation;
+        for (map<string, string>::const_iterator it = ioPairs.begin();
+             it != ioPairs.end(); it++)
+        {
 
-        void getFunName() {
+            createMain(it->first, it->second);
+            createTestProg();
 
-            for(int i = 0; i < progFunction.size(); i++) {
-
-                simpleparser.tokenizedLine(progFunction[i]);
-
+            if (executeProg())
+            {
+                fitness++;
             }
-
         }
+    }
 
-        void getFunction() {
-
-            functionName = simpleparser.getProgFunc().begin()->first;
-        }
-
-        void createMain(string input, string output) {
-
-            string semicolon = ";";
-            string endofLine = "\n";
-
-            progMain.clear();
-            progMain.push_back("int main(){" + endofLine);
-            progMain.push_back(strOperation.generateAsserts(functionName, input, output) + semicolon + endofLine);
-            progMain.push_back("return 0" + semicolon + endofLine);
-            progMain.push_back("}" + endofLine);
-        }
-
-        void createTestProg() {
-
-            testProg.clear();
-
-            //Copying function vector
-            for(int i = 0; i < progFunction.size(); i++) {
-                testProg.push_back(progFunction[i]);
-            }
-
-            //copying mainFuction vector
-            for(int i = 0; i < progMain.size(); i++) {
-                testProg.push_back(progMain[i]);
-            }
-
-        }
-
-        bool executeProg() {
-
-            repairUtil rp(testProg);
-
-            cout << endl << "mutated prog" << endl;
-
-            for(int i = 0; i < testProg.size(); i++) {
-                cout << testProg[i] << endl;
-            }
-
-            cout << endl;
-
-            if(!rp.requireRepair()) {
-                return true;
-            }
-
-            return false;
-            
-        }  
-
-        void progFitness() {
-
-            fitness = 0;
-            map<string, string>ioPairs = io.getIOPairs();
-
-            for(map<string, string>::const_iterator it = ioPairs.begin();
-            it != ioPairs.end(); it++) {
-
-                createMain(it->first, it->second);
-                createTestProg();
-
-                if(executeProg()) {
-                    fitness++;
-                }
-            }
-        }
-
-         void execute() {
-            getFunName();
-            getFunction();
-            progFitness();
-        }
-
-
-
+    void execute()
+    {
+        getFunName();
+        getFunction();
+        progFitness();
+    }
 };

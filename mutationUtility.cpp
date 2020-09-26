@@ -7,332 +7,365 @@
 using namespace std;
 using namespace boost::algorithm;
 
-class mutUtil {
+class mutUtil
+{
 
-    public:
+public:
+    mutUtil(vector<string> prog, ioUtil io)
+    {
+        this->io = io;
+        this->prog = prog;
+        arithmetricOperations.push_back("+");
+        arithmetricOperations.push_back("-");
+        arithmetricOperations.push_back("*");
+        arithmetricOperations.push_back("/");
+        arithmetricOperations.push_back("%");
+        relationalOperations.push_back(">");
+        relationalOperations.push_back(">=");
+        relationalOperations.push_back("<");
+        relationalOperations.push_back("<=");
+        logicOperations.push_back("||");
+        logicOperations.push_back("&&");
 
-        mutUtil(vector<string> prog, ioUtil io) {
-            this->io = io;
-            this->prog = prog;
-            arithmetricOperations.push_back("+");
-            arithmetricOperations.push_back("-");
-            arithmetricOperations.push_back("*");
-            arithmetricOperations.push_back("/");
-            arithmetricOperations.push_back("%");
-            relationalOperations.push_back(">");
-            relationalOperations.push_back(">=");
-            relationalOperations.push_back("<");
-            relationalOperations.push_back("<=");
-            logicOperations.push_back("||");
-            logicOperations.push_back("&&");
+        generateOperations();
+        generateMutatedProg();
+    }
 
-            generateOperations();
-            generateMutatedProg();
+    void mutate()
+    {
+    }
+
+    void deleteMutated()
+    {
+        system("rm temp");
+        system("rm testFile.c");
+    }
+
+    vector<class mutatedProg> getListofMutatedProg()
+    {
+
+        return listofMutatedProg;
+    }
+
+private:
+    ioUtil io;
+    response res;
+
+    vector<string> prog;
+    vector<string> operations;
+    vector<string> logicOperations;
+    vector<string> relationalOperations;
+    vector<string> arithmetricOperations;
+
+    vector<class mutatedProg> listofMutatedProg;
+
+    void concatVectors(vector<string> toCopy, vector<string> *copyTo)
+    {
+
+        for (int i = 0; i < toCopy.size(); i++)
+        {
+
+            copyTo->push_back(toCopy[i]);
         }
+    }
 
-        void mutate() {
+    void generateOperations()
+    {
 
-        }
+        concatVectors(logicOperations, &operations);
+        concatVectors(relationalOperations, &operations);
+        concatVectors(arithmetricOperations, &operations);
+    }
 
-        void deleteMutated() {
-            system("rm temp");
-            system("rm testFile.c");
-        }
+    bool hasOperations(string line)
+    {
 
-        vector<class mutatedProg>getListofMutatedProg() {
-
-            return listofMutatedProg;
-
-        }
-
-    private:
-
-        ioUtil io;
-
-        vector<string>prog;
-        vector<string>operations;
-        vector<string>logicOperations;
-        vector<string>relationalOperations;
-        vector<string>arithmetricOperations;
-        
-        vector<class mutatedProg> listofMutatedProg;
-
-        void concatVectors(vector<string> toCopy, vector<string>* copyTo) {
-
-            for(int i = 0; i < toCopy.size(); i++) {
-
-                copyTo->push_back(toCopy[i]);
-
-            }
-        }
-
-        void generateOperations() {
-
-            concatVectors(logicOperations, &operations);
-            concatVectors(relationalOperations, &operations);
-            concatVectors(arithmetricOperations, &operations);
-
-        }
-
-        bool hasOperations (string line) {
-            
-            for(int i = 0; i < operations.size(); i++) {
-                if(contains(line, operations[i])) {
-                    if(!contains(line, "#include")) {
-                        return true;
-                    }            
+        for (int i = 0; i < operations.size(); i++)
+        {
+            if (contains(line, operations[i]))
+            {
+                if (!contains(line, "#include") && !contains(line, "for") && !contains(line, "while") && !contains(line, "do"))
+                {
+                    return true;
                 }
             }
-            return false;
+        }
+        return false;
+    }
+
+    void removeElement(vector<string> &vecToRemoveFrom, string itemToBeRemoved)
+    {
+
+        vector<string>::iterator it = vecToRemoveFrom.begin();
+
+        while (it != vecToRemoveFrom.end())
+        {
+
+            if (*it == itemToBeRemoved)
+                it = vecToRemoveFrom.erase(it);
+            else
+                it++;
+        }
+    }
+
+    map<string, vector<string>> arithmetricOp(string line)
+    {
+
+        string removed;
+        map<string, vector<string>> temp;
+        vector<string> specialOperation;
+        vector<string> operationsRemoved;
+
+        concatVectors(arithmetricOperations, &operationsRemoved);
+
+        if (contains(line, "++"))
+        {
+            removed = "++";
+            specialOperation.push_back("--");
+            temp.insert(make_pair(removed, specialOperation));
+        }
+        else if (contains(line, "--"))
+        {
+            removed = "--";
+            specialOperation.push_back("++");
+            temp.insert(make_pair(removed, specialOperation));
+        }
+        else if (contains(line, "+"))
+        {
+            removed = "+";
+            removeElement(operationsRemoved, "+");
+        }
+        else if (contains(line, "-"))
+        {
+            removed = "-";
+            removeElement(operationsRemoved, "-");
+        }
+        else if (contains(line, "*"))
+        {
+            removed = "*";
+            removeElement(operationsRemoved, "*");
+        }
+        else if (contains(line, "/"))
+        {
+            removed = "/";
+            removeElement(operationsRemoved, "/");
+        }
+        else
+        {
+            removed = "%";
+            removeElement(operationsRemoved, "%");
         }
 
-        void removeElement (vector<string>& vecToRemoveFrom, string itemToBeRemoved) {
+        temp.insert(make_pair(removed, operationsRemoved));
 
-            vector<string>::iterator it = vecToRemoveFrom.begin();
+        return temp;
+    }
 
-            while (it != vecToRemoveFrom.end()) {
+    map<string, vector<string>> relationalOp(string line)
+    {
 
-                    if(*it == itemToBeRemoved)
-                        it = vecToRemoveFrom.erase(it);
-                    else
-                        it++;
-            }
+        string removed;
+        map<string, vector<string>> temp;
+        vector<string> operationsRemoved;
+
+        concatVectors(relationalOperations, &operationsRemoved);
+
+        if (contains(line, ">"))
+        {
+            removed = ">";
+            removeElement(operationsRemoved, ">");
+        }
+        else if (contains(line, ">="))
+        {
+            removed = ">=";
+            removeElement(operationsRemoved, ">=");
+        }
+        else if (contains(line, "<"))
+        {
+            removed = "<";
+            removeElement(operationsRemoved, "<");
+        }
+        else
+        {
+            removed = "<=";
+            removeElement(operationsRemoved, "<=");
         }
 
-        map<string, vector<string> > arithmetricOp (string line) {
+        temp.insert(make_pair(removed, operationsRemoved));
 
-            string removed;
-            map<string, vector<string> >temp;
-            vector<string> specialOperation;
-            vector<string> operationsRemoved;
+        return temp;
+    }
 
-            concatVectors(arithmetricOperations, &operationsRemoved);
+    map<string, vector<string>> logicOp(string line)
+    {
 
-            if(contains(line, "++")) {
-                removed = "++";
-                specialOperation.push_back("--");
-                temp.insert(make_pair(removed, specialOperation));
-            }
-            else if(contains(line, "--")) {
-                removed = "--";
-                specialOperation.push_back("++");
-                temp.insert(make_pair(removed, specialOperation));
-            }
-            else if(contains(line, "+")) {
-                removed = "+";
-                removeElement(operationsRemoved, "+");
-            }
-            else if(contains(line, "-")) {
-                removed = "-";
-                removeElement(operationsRemoved, "-");
-            }
-            else if(contains(line, "*")) {
-                removed = "*";
-                removeElement(operationsRemoved, "*");
-            }
-            else if(contains(line, "/")) {
-                removed = "/";
-                removeElement(operationsRemoved, "/");
-            }else {
-                removed = "%";
-                removeElement(operationsRemoved, "%");
-            }
+        string removed;
+        map<string, vector<string>> temp;
+        vector<string> operationsRemoved;
 
-            temp.insert(make_pair(removed, operationsRemoved));
-            
-            return temp;
+        concatVectors(logicOperations, &operationsRemoved);
+
+        if (contains(line, "||"))
+        {
+            removed = "||";
+            removeElement(operationsRemoved, "||");
+        }
+        else
+        {
+            removed = "&&";
+            removeElement(operationsRemoved, "&&");
         }
 
-        map<string, vector<string> > relationalOp (string line) {
+        temp.insert(make_pair(removed, operationsRemoved));
 
-            string removed;
-            map<string, vector<string> >temp;
-            vector<string> operationsRemoved;
+        return temp;
+    }
 
-            concatVectors(relationalOperations, &operationsRemoved);
+    map<string, vector<string>> findOperation(string line)
+    {
 
-            if(contains(line, ">")) {
-                removed = ">";
-                removeElement(operationsRemoved, ">");
-            }
-            else if(contains(line, ">=")) {
-                removed = ">=";
-                removeElement(operationsRemoved, ">=");
-            }
-            else if(contains(line, "<")) {
-                removed = "<";
-                removeElement(operationsRemoved, "<");
-            }else{
-                removed = "<=";
-                removeElement(operationsRemoved, "<=");
-            }
+        map<string, vector<string>> temp;
 
-            temp.insert(make_pair(removed, operationsRemoved));
-            
-            return temp;
+        if (contains(line, "+") || contains(line, "-") || contains(line, "*") || contains(line, "/") || contains(line, "%"))
+        {
 
+            cout << endl
+                 << "Arithmetric Operation Found!";
+            res.generatingMutations();
+            temp = arithmetricOp(line);
+        }
+        else if (contains(line, "<") || contains(line, "<=") || contains(line, ">") || contains(line, ">="))
+        {
+
+            cout << endl
+                 << "Relational Operation Found!";
+            res.generatingMutations();
+            temp = relationalOp(line);
+        }
+        else
+        {
+
+            cout << endl
+                 << "Logic Operation Found!";
+            res.generatingMutations();
+            temp = logicOp(line);
         }
 
-        map<string, vector<string> > logicOp (string line) {
+        return temp;
+    }
 
-            string removed;
-            map<string, vector<string> >temp;
-            vector<string> operationsRemoved;
+    void copyPreviousLine(int lineNumber, vector<string> *toCopyTo)
+    {
 
-            concatVectors(logicOperations, &operationsRemoved);
+        for (int i = 0; i < lineNumber; i++)
+        {
 
-            if(contains(line, "||")) {
-                removed = "||";
-                removeElement(operationsRemoved, "||");
-            }else{
-                removed = "&&";
-                removeElement(operationsRemoved, "&&");
-            }
-
-            temp.insert(make_pair(removed, operationsRemoved));
-            
-            return temp;
-    
+            toCopyTo->push_back(prog[i]);
         }
+    }
 
+    void copyRemainingLine(int lineNumber, vector<string> *toCopyTo)
+    {
 
-        map<string, vector<string> > findOperation(string line) {
+        for (int i = lineNumber + 1; i < prog.size(); i++)
+        {
 
-            map<string, vector<string> >temp;
-
-            if (contains(line, "+") || contains(line, "-") || contains(line, "*")
-             || contains(line, "/") || contains(line, "%")) {
-
-                cout << "Class 1" << endl;
-                temp = arithmetricOp(line);
-
-             }
-             else if(contains(line, "<") || contains(line, "<=") || contains(line, ">") 
-             || contains(line, ">=")) {
-
-                 cout << "Class 2" << endl;
-                 temp = relationalOp(line);
-
-             }else{
-
-                 cout << "Class 3" << endl;
-                 temp = logicOp(line);
-             }
-
-             return temp;
-
+            toCopyTo->push_back(prog[i]);
         }
+    }
 
-        void copyPreviousLine(int lineNumber, vector<string> *toCopyTo) {
+    string replaceLine(string line, string toReplaced, string toBeReplaced)
+    {
 
-            /*Protect against linenumber = 0*/
+        return replace_all_copy(line, toReplaced, toBeReplaced);
+    }
 
-            for(int i = 0; i < lineNumber - 1; i++) {
+    void generateMutatedProg()
+    {
 
-                toCopyTo->push_back(prog[i]);
-            }
+        for (int i = 0; i < prog.size(); i++)
+        {
 
-        }
+            if (hasOperations(prog[i]))
+            {
 
-        void copyRemainingLine(int lineNumber, vector<string> *toCopyTo) {
+                string operationRemoved;
+                vector<string> operationsRemaining;
+                map<string, vector<string>> mapOfOperations;
 
-            for(int i = lineNumber + 1; i < prog.size(); i++) {
+                mapOfOperations = findOperation(prog[i]);
+                operationRemoved = mapOfOperations.begin()->first;
+                operationsRemaining = mapOfOperations.begin()->second;
 
-                toCopyTo->push_back(prog[i]);
-            }
+                for (int j = 0; j < operationsRemaining.size(); j++)
+                {
 
-        }
+                    vector<string> temp;
 
-        string replaceLine(string line, string toReplaced, string toBeReplaced) {
+                    copyPreviousLine(i, &temp);
+                    temp.push_back(replaceLine(prog[i], operationRemoved, operationsRemaining[j]));
+                    copyRemainingLine(i, &temp);
 
-            return replace_all_copy(line, toReplaced, toBeReplaced);
-        }
+                    mutatedProg mutated(temp);
+                    mutated.setIO(io);
 
-        void generateMutatedProg() {
-
-            for(int i = 0; i < prog.size(); i++) {
-
-                if(hasOperations(prog[i])) {
-                    
-                    string operationRemoved;
-                    vector<string>operationsRemaining;
-                    map<string, vector<string> > mapOfOperations;
-
-                    mapOfOperations = findOperation(prog[i]);
-                    operationRemoved = mapOfOperations.begin()->first;
-                    operationsRemaining = mapOfOperations.begin()->second;
-
-                    for(int j = 0; j < operationsRemaining.size(); j++) {
-
-                        string currentLine;
-                        vector<string>temp;
-
-                        copyPreviousLine(i, &temp);
-                        temp.push_back(replaceLine(prog[i], operationRemoved, operationsRemaining[j]));
-                        copyRemainingLine(i, &temp);
-
-                        mutatedProg mutated(temp);
-                        mutated.setIO(io);
-
-                        listofMutatedProg.push_back(mutated);
-
-                    }
-
+                    listofMutatedProg.push_back(mutated);
                 }
             }
-
         }
+    }
 };
 
-class mutChecker {
+class mutChecker
+{
 
-    public:
+public:
+    mutChecker(vector<class mutatedProg> list, ioUtil io)
+    {
+        this->io = io;
+        this->listofMutatedProg = list;
 
-        mutChecker(vector<class mutatedProg> list, ioUtil io) {
-            this->io = io;
-            this->listofMutatedProg = list;
+        findRepairedProg();
+    }
 
-            findRepairedProg(); 
+    bool repairFound()
+    {
+
+        if (repairedProg.size() != 0)
+        {
+
+            return true;
         }
 
-        bool repairFound() {
+        return false;
+    }
 
-            if(repairedProg.size() != 0) {
-                
-                return true;
+    vector<class mutatedProg> getRepairedProg()
+    {
+
+        return repairedProg;
+    }
+
+private:
+    ioUtil io;
+    vector<class mutatedProg> repairedProg;
+    vector<class mutatedProg> listofMutatedProg;
+
+    void findRepairedProg()
+    {
+
+        int numOfIO;
+
+        numOfIO = io.getNumofIOPairs();
+
+        for (int i = 0; i < listofMutatedProg.size(); i++)
+        {
+
+            if (listofMutatedProg[i].getFitness() == numOfIO)
+            {
+
+                repairedProg.push_back(listofMutatedProg[i]);
             }
-
-            return false;
         }
-
-        vector<class mutatedProg> getRepairedProg() {
-
-            return repairedProg;
-        }
-
-
-
-    private:
-
-        ioUtil io;
-        vector<class mutatedProg>repairedProg;
-        vector<class mutatedProg>listofMutatedProg;
-
-        void findRepairedProg() {
-
-            int numOfIO;
-
-            numOfIO = io.getNumofIOPairs(); 
-
-            for(int i = 0; i < listofMutatedProg.size(); i++) {
-                
-                if(listofMutatedProg[i].getFitness() == numOfIO) {
-
-                   repairedProg.push_back(listofMutatedProg[i]);
-
-                }
-            }
-        }
-
-
+    }
 };

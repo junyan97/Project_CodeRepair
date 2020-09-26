@@ -40,19 +40,13 @@ Boost library can be installed using following the instructions here: [Boost lib
 In order to build the project:
 
 ```sh
-g++ main.cpp -o main
+make -f Makefile
 ```
 
-To run the program:
+To run the program where path is the exact file path of the buggy program (e.g: benchmarks/test1.c):
 
 ```sh
-./main
+./repairTool <path>
 ```
 
-When prompt to enter the exact path to be repaired e.g test1.c:
-
-```sh
-benchmarks/test1.c
-```
-
-New benchamrks can be placed into the directory benchmarks or any other path that is valid.
+New benchamrks or IO examples can be placed into the benchmarks directory or IO directory respectively or any other path that is valid.
