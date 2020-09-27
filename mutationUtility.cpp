@@ -24,6 +24,8 @@ public:
         relationalOperations.push_back(">=");
         relationalOperations.push_back("<");
         relationalOperations.push_back("<=");
+        relationalOperations.push_back("==");
+        relationalOperations.push_back("!=");
         logicOperations.push_back("||");
         logicOperations.push_back("&&");
 
@@ -84,7 +86,9 @@ private:
         {
             if (contains(line, operations[i]))
             {
-                if (!contains(line, "#include") && !contains(line, "for") && !contains(line, "while") && !contains(line, "do"))
+                if (!contains(line, "#include") && !contains(line, "for") && 
+                !contains(line, "while") && !contains(line, "do") 
+                && !contains(line, "if") && !contains(line, "else if") && !contains(line, "else"))
                 {
                     return true;
                 }
@@ -185,12 +189,22 @@ private:
             removed = "<";
             removeElement(operationsRemoved, "<");
         }
-        else
+        else if (contains(line, "<="))
         {
             removed = "<=";
             removeElement(operationsRemoved, "<=");
         }
-
+        else if (contains(line, "=="))
+        {
+            removed = "==";
+            removeElement(operationsRemoved,"==");
+        } 
+        else
+        {
+            removed = "!=";
+            removeElement(operationsRemoved, "!=");
+        }
+        
         temp.insert(make_pair(removed, operationsRemoved));
 
         return temp;
@@ -234,7 +248,7 @@ private:
             res.generatingMutations();
             temp = arithmetricOp(line);
         }
-        else if (contains(line, "<") || contains(line, "<=") || contains(line, ">") || contains(line, ">="))
+        else if (contains(line, "<") || contains(line, "<=") || contains(line, ">") || contains(line, ">=") || contains(line, "==") || contains(line, "!="))
         {
 
             cout << endl

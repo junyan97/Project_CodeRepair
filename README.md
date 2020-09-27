@@ -37,10 +37,16 @@ Boost library can be installed using following the instructions here: [Boost lib
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+The directory containing input/output examples and benchmarks used for testing are ioExamples and benchmarks respectively and already contains a few examples for the existing benchmarks.
+
+When running the tool, the different mutated programs (i.e. potential repaired programs) are printed on the screen. If a repair is found, the message "repaired found" is printed on the screen and the program printed on the screen without the error Assertion failed is the repaired program (minus the assertions that were used to check its correctness). If no possible repair is possible with the pre-defined search space "no repaired found" is printed.
+
+New benchamrks or IO examples can be placed into the benchmarks directory or IO directory respectively or any other path that is valid.
+
 In order to build the project:
 
 ```sh
-make -f Makefile
+make -f MakeFile
 ```
 
 To run the program where path is the exact file path of the buggy program (e.g: benchmarks/test1.c):
@@ -49,4 +55,4 @@ To run the program where path is the exact file path of the buggy program (e.g: 
 ./repairTool <path>
 ```
 
-New benchamrks or IO examples can be placed into the benchmarks directory or IO directory respectively or any other path that is valid.
+
