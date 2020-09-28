@@ -1,9 +1,16 @@
 #include<stdio.h>
 #include<assert.h>
 
-int multiply(int a, int b) {
+int fun(int a) {
     
-    int c = a + b;
+   for(int i = 0; i < 10; i++) {
 
-    return c;
+        if(i < 5) {
+            a = a % 1;
+        }else{
+            a = a + 2;
+        }
+   }
+
+    return a;
 }
