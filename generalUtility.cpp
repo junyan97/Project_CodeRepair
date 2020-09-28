@@ -91,7 +91,7 @@ public:
     void reqIOoption()
     {
 
-        cout << "Do you want to input Input/Output pair manually? [yes/no] ";
+        cout << "Do you want to input Input/Output pairs manually (the alternative is to provide a file, e.g. ioExamples/io1_test1.txt)? [yes/no] ";
     }
 
     void reqIOfile()
